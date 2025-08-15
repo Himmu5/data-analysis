@@ -123,3 +123,29 @@ fig = px.bar(
 fig.update_traces(texttemplate="₹%{text:,.0f}", textposition="outside")
 fig.update_layout(showlegend=False, xaxis_tickangle=45)
 st.plotly_chart(fig, use_container_width=True)
+
+st.subheader("🏙 Sales by Marital Status")
+spent_by_marital = diwali_data.groupby("Marital_Status").aggregate("Amount").sum().reset_index()
+fig = px.bar(
+    spent_by_marital,
+    x="Marital_Status",
+    y="Amount",
+    color="Marital_Status",
+    text="Amount",
+    template="plotly_white",
+    color_discrete_sequence=px.colors.qualitative.Vivid
+)
+st.plotly_chart(fig, use_container_width=True)
+
+st.subheader("🏙 Sales by Occupation in Uttar Pradesh")
+up_data = diwali_data.loc[diwali_data['State'] == "Uttar Pradesh"].groupby("Occupation").aggregate("Amount").sum().reset_index()
+print(up_data)
+fig = px.bar(
+    up_data,
+    x="Occupation",
+    y="Amount",
+    color="Occupation",
+    template="plotly_white",
+    color_discrete_sequence=px.colors.qualitative.Vivid
+)
+st.plotly_chart(fig, use_container_width=True)
