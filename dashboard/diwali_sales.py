@@ -5,53 +5,121 @@ import plotly.express as px
 # ======================
 # Load Data
 # ======================
-
+@st.cache_data
 def load_data():
     return pd.read_csv("dataset/diwali_sales_data.csv", encoding="cp1252")
 
 diwali_data = load_data()
 
-st.title("🪔Diwali Sales Dashboard")
+# ======================
+# Dashboard Title
+# ======================
+st.set_page_config(page_title="Diwali Sales Dashboard", layout="wide")
+st.title("🪔 Diwali Sales Insights Dashboard")
+st.markdown("A sleek, interactive dashboard to explore Diwali sales performance across demographics and regions.")
+
+# ======================
+# KPI Section
+# ======================
+total_sales = diwali_data["Amount"].sum()
+total_customers = diwali_data["Gender"].count()
+unique_states = diwali_data["State"].nunique()
+
+col1, col2, col3 = st.columns(3)
+col1.metric("💰 Total Sales", f"₹{total_sales:,.0f}")
+col2.metric("👥 Total Customers", f"{total_customers:,}")
+col3.metric("📍 States Covered", unique_states)
 
 st.divider()
 
-st.markdown("#### Gender-wise Customer Distribution")
+# ======================
+# Gender-wise Customer Distribution
+# ======================
+st.subheader("📊 Gender-wise Customer Distribution")
+gender_count = diwali_data["Gender"].value_counts().reset_index()
+gender_count.columns = ["Gender", "Count"]
 
-gender_count = diwali_data.aggregate("Gender").value_counts()
-
-fig = px.bar(gender_count, color=['orange', 'cyan'])
+fig = px.bar(
+    gender_count,
+    x="Gender",
+    y="Count",
+    color="Gender",
+    color_discrete_sequence=["#FF9933", "#00CED1"],
+    text="Count",
+    template="plotly_white"
+)
+fig.update_traces(textposition="outside")
 st.plotly_chart(fig, use_container_width=True)
 
-st.markdown("#### Sales distribution over Age group")
-purchases_age_data = diwali_data.groupby("Age Group").aggregate('Amount').sum()
-fig = px.bar(purchases_age_data, color=['red', 'blue', 'yellow', 'orange','green', 'black', 'gray'])
+# ======================
+# Sales by Age Group
+# ======================
+st.subheader("📈 Sales by Age Group")
+age_sales = diwali_data.groupby("Age Group", as_index=False)["Amount"].sum().sort_values("Amount", ascending=False)
+
+fig = px.bar(
+    age_sales,
+    x="Age Group",
+    y="Amount",
+    color="Age Group",
+    text="Amount",
+    color_discrete_sequence=px.colors.qualitative.Set2,
+    template="plotly_white"
+)
+fig.update_traces(texttemplate="₹%{text:,.0f}", textposition="outside")
 st.plotly_chart(fig, use_container_width=True)
 
-st.markdown("#### Sales distribution over Gender")
-male_female_purchases = diwali_data.groupby("Gender").aggregate("Amount").sum()
-fig = px.bar(male_female_purchases, color=[ 'orange','green'])
+# ======================
+# Sales by Gender
+# ======================
+st.subheader("🛍 Sales by Gender")
+gender_sales = diwali_data.groupby("Gender", as_index=False)["Amount"].sum()
+
+fig = px.pie(
+    gender_sales,
+    names="Gender",
+    values="Amount",
+    color="Gender",
+    color_discrete_sequence=["#FF9933", "#00CED1"],
+    hole=0.4,
+    template="plotly_white"
+)
 st.plotly_chart(fig, use_container_width=True)
 
-st.markdown("#### Sales distribution over Gender")
-occupation_data = diwali_data.groupby("Occupation", as_index=False).aggregate("Amount").sum()
-fig = px.bar( 
+# ======================
+# Sales by Occupation
+# ======================
+st.subheader("💼 Sales by Occupation")
+occupation_data = diwali_data.groupby("Occupation", as_index=False)["Amount"].sum().sort_values("Amount", ascending=False)
+
+fig = px.bar(
     occupation_data,
     x="Occupation",
     y="Amount",
-    color="Occupation",  # This now works because it's a column
-    title="Sales by Occupation",
-    
+    color="Occupation",
+    text="Amount",
+    template="plotly_white",
+    color_discrete_sequence=px.colors.qualitative.Vivid
 )
-fig.update_layout(showlegend=False, xaxis_tickangle=90)
+fig.update_layout(showlegend=False, xaxis_tickangle=45)
+fig.update_traces(texttemplate="₹%{text:,.0f}", textposition="outside")
 st.plotly_chart(fig, use_container_width=True)
 
-state_puchases = diwali_data.groupby("State", as_index=False).aggregate("Amount").max()
-unique_bars = len(state_puchases)
-fig = px.bar( 
-    state_puchases,
+# ======================
+# Sales by State
+# ======================
+st.subheader("🏙 Sales by State")
+state_sales = diwali_data.groupby("State", as_index=False)["Amount"].sum().sort_values("Amount", ascending=False)
+
+fig = px.bar(
+    state_sales,
     x="State",
     y="Amount",
-    color="State",  # This now works because it's a column
-    title="Sales by State"
+    color="State",
+    text="Amount",
+    template="plotly_white",
+    color_discrete_sequence=px.colors.qualitative.Prism
 )
+fig.update_traces(texttemplate="₹%{text:,.0f}", textposition="outside")
+fig.update_layout(showlegend=False, xaxis_tickangle=45)
 st.plotly_chart(fig, use_container_width=True)
