@@ -60,6 +60,7 @@ fig = px.choropleth(
 )
 st.plotly_chart(fig, use_container_width=True)
 
+st.subheader("🦠 Distribution of COVID-19 Cases Across Continents")
 continent_cases = covid_data.groupby("Continent")["TotalCases"].sum()
 fig, ax = plt.subplots(figsize=(7,7))
 ax.pie(
@@ -69,6 +70,4 @@ ax.pie(
     startangle=90,
     colors=plt.cm.Paired.colors
 )
-
-ax.set_title("🦠 Distribution of COVID-19 Cases Across Continents")
 st.pyplot(fig) 
