@@ -1,5 +1,5 @@
 import pandas as pd
-import matplotlib.pyplot as mlt
+import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 import streamlit as st
@@ -31,6 +31,44 @@ col3.metric("☠️ Total Deaths", total_deaths)
 
 st.divider()
 
-st.subheader("📊 Gender-wise Customer Distribution")
-top10_deaths_country = covid_data.groupby("Country/Region").aggregate("TotalDeaths").sum().sort_values(ascending=False).head(10)
-# gender_count.columns = ["Gender", "Count"]
+st.subheader("📊 Top 10 countries with most number of deaths")
+top10_deaths_country = covid_data.groupby("Country/Region").aggregate("TotalDeaths").sum().sort_values(ascending=False).head(10).reset_index()
+fig = px.bar(
+    top10_deaths_country,
+    x="Country/Region",
+    y="TotalDeaths",
+    color="Country/Region",
+    template="plotly_white"
+)
+st.plotly_chart(fig, use_container_width=True)
+
+
+st.subheader("📈 Correlation Between COVID-19 Metrics")
+plt.style.use("dark_background")
+corr = covid_data[["TotalCases", "TotalDeaths", "TotalRecovered", "ActiveCases", "TotalTests"]].corr()
+fig, ax = plt.subplots(figsize=(8,4))
+sns.heatmap(corr, annot=True, cmap="coolwarm", fmt=".2f", ax=ax)
+st.pyplot(fig) 
+
+st.subheader("Geographic Distribution of COVID-19 Cases per Million")
+fig = px.choropleth(
+    covid_data,
+    locations="iso_alpha",            # ISO country codes
+    color="Tot Cases/1M pop",         # Cases per million
+    hover_name="Country/Region",      # Show country on hover
+    color_continuous_scale="Reds",    # Color scale
+)
+st.plotly_chart(fig, use_container_width=True)
+
+continent_cases = covid_data.groupby("Continent")["TotalCases"].sum()
+fig, ax = plt.subplots(figsize=(7,7))
+ax.pie(
+    continent_cases.values,
+    labels=continent_cases.index,
+    autopct="%1.1f%%",
+    startangle=90,
+    colors=plt.cm.Paired.colors
+)
+
+ax.set_title("🦠 Distribution of COVID-19 Cases Across Continents")
+st.pyplot(fig) 
