@@ -69,3 +69,19 @@ product_pair_df[["Product1", "Product2"]] = pd.DataFrame(product_pair_df['Produc
 heat_map = product_pair_df.pivot(index='Product1', values='Count', columns='Product2')
 fig = px.density_heatmap(heat_map, color_continuous_scale='Viridis')
 st.plotly_chart(fig, use_container_width=True)
+
+st.markdown("#### Single vs Multi-Product Transactions")
+iphone_sales_data['is_multi_product'] = iphone_sales_data['Product Count'].apply(lambda x : x > 1)
+single_multi_product = iphone_sales_data['is_multi_product'].value_counts().reset_index()
+fig = px.pie(
+    single_multi_product,
+    names="is_multi_product",
+    values="count",
+    color="is_multi_product",
+    color_discrete_map={
+        "Single-Product": "green",
+        "Multi-Product": "orange"
+    },
+    hole=0.3  # makes it a donut chart
+)
+st.plotly_chart(fig, use_container_width=True)
