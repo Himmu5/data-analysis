@@ -37,6 +37,12 @@ st.markdown("###### Booking Status distribution (Completed, Incomplete, Cancelle
 fig = px.pie(booking_data, names="Booking Status", values="count", color="Booking Status")
 st.plotly_chart(fig, use_container_width=True)
 
-# st.markdown("###### Booking Status distribution (Completed, Incomplete, Cancelled, No Driver Found)")
-# fig = px.pie(booking_data, names="Booking Status", values="count", color="Booking Status")
+vehicle_data = uber_data.aggregate("Vehicle Type").value_counts().reset_index().sort_values(by="count", ascending=False)
+st.markdown("###### Number of bookings per vehicle type")
+fig = px.bar(vehicle_data, x="Vehicle Type", y="count", color="Vehicle Type")
+st.plotly_chart(fig, use_container_width=True)
+
+# vehicle_data = uber_data.aggregate("Vehicle Type").value_counts().reset_index().sort_values(by="count", ascending=False)
+# st.markdown("###### Vehicle type vs Booking Status (e.g., how many Auto rides completed vs cancelled)")
+# fig = px.bar(vehicle_data, x="Vehicle Type", y="count", color="Vehicle Type")
 # st.plotly_chart(fig, use_container_width=True)
