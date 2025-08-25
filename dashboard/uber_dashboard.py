@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
+
 # ======================
 # Load Data
 # ======================
@@ -27,3 +29,14 @@ col2.metric("👥 Unique Customers", f"{total_customers:,}")
 col4.metric("✅ Completed Rides", f"{completed_rides:,}") 
 col3.metric("📊 Avg Booking Value", f"₹{avg_booking_value}")
 col5.metric("💰 Total Booking Value", f"₹{total_booking_value:,.0f}")
+
+
+booking_data = uber_data.aggregate("Booking Status").value_counts().reset_index()
+st.markdown("#### 📊 Booking & Status Overview")
+st.markdown("###### Booking Status distribution (Completed, Incomplete, Cancelled, No Driver Found)")
+fig = px.pie(booking_data, names="Booking Status", values="count", color="Booking Status")
+st.plotly_chart(fig, use_container_width=True)
+
+# st.markdown("###### Booking Status distribution (Completed, Incomplete, Cancelled, No Driver Found)")
+# fig = px.pie(booking_data, names="Booking Status", values="count", color="Booking Status")
+# st.plotly_chart(fig, use_container_width=True)
