@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import calendar
 
 # ======================
 # Load Data
@@ -57,3 +58,26 @@ fig = px.bar(vehicle_booking_distribution, x="Vehicle Type", y="count", color="r
     })
 st.plotly_chart(fig, use_container_width=True)
 
+st.markdown("### ⏰ Time & Trend Analysis")
+st.markdown("#### Rides per month (trend of bookings over time)")
+
+uber_data["Date"] = pd.to_datetime(uber_data["Date"], errors="coerce")
+# Group by month
+monthly_rides = (
+    uber_data.groupby(uber_data["Date"].dt.month)["Booking ID"]
+    .count()
+    .reset_index(name="Ride Count")
+    .rename(columns={"Date": "Month"})
+)
+
+# Convert month number → month name
+monthly_rides["Month"] = monthly_rides["Month"].apply(lambda x: calendar.month_name[x])
+
+# Ensure months are ordered Jan → Dec
+month_order = list(calendar.month_name)[1:]  # ['January', 'February', ...]
+monthly_rides["Month"] = pd.Categorical(monthly_rides["Month"], categories=month_order, ordered=True)
+monthly_rides = monthly_rides.sort_values("Month")
+
+# Plot
+fig = px.line(monthly_rides, x="Month", y="Ride Count", markers=True)
+st.plotly_chart(fig, use_container_width=True)
