@@ -81,3 +81,16 @@ monthly_rides = monthly_rides.sort_values("Month")
 # Plot
 fig = px.line(monthly_rides, x="Month", y="Ride Count", markers=True)
 st.plotly_chart(fig, use_container_width=True)
+
+
+st.markdown("#### Monthly ride revenue")
+monthly_revenue = (
+    uber_data.groupby(uber_data["Date"].dt.month)["Booking Value"]
+    .sum()
+    .reset_index(name="Revenue")
+)
+monthly_revenue['month'] = monthly_revenue['Date'].apply(
+    lambda x: pd.to_datetime(f"2000-{x}-01").strftime("%B")
+)
+fig = px.bar(monthly_revenue, x="month", y='Revenue', color="month")
+st.plotly_chart(fig, use_container_width=True)
