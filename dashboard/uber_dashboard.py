@@ -94,3 +94,11 @@ monthly_revenue['month'] = monthly_revenue['Date'].apply(
 )
 fig = px.bar(monthly_revenue, x="month", y='Revenue', color="month")
 st.plotly_chart(fig, use_container_width=True)
+
+
+st.markdown("### 👤 Customer & Driver Insights")
+st.markdown("#### Top 10 customers by number of bookings")
+top_10_customer = uber_data.aggregate("Customer ID").value_counts().reset_index().head(10)
+fig = px.bar(top_10_customer, x='count', y='Customer ID', orientation='h', color="Customer ID")
+st.plotly_chart(fig, use_container_width=True)
+
