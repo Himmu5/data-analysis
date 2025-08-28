@@ -102,3 +102,11 @@ top_10_customer = uber_data.aggregate("Customer ID").value_counts().reset_index(
 fig = px.bar(top_10_customer, x='count', y='Customer ID', orientation='h', color="Customer ID")
 st.plotly_chart(fig, use_container_width=True)
 
+uber_data['Customer Rating'].fillna(uber_data['Customer Rating'].mean(), inplace=True)
+st.markdown("#### Distribution of customer ratings and driver ratings")
+long_data = uber_data.melt(value_vars=['Customer Rating', 'Driver Ratings'], var_name='type', value_name='rating')
+fig = px.histogram(long_data, x="rating", color="type", 
+                   barmode="overlay",  
+                   nbins=5, opacity=0.6) 
+st.plotly_chart(fig, use_container_width=True)
+
