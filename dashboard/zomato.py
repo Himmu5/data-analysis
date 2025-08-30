@@ -65,4 +65,11 @@ st.markdown("#### Votes (x-axis) vs Aggregate rating (y-axis)")
 fig = px.scatter(data_frame=zomato_data,x="Votes", y='Aggregate rating', color="Votes")
 st.plotly_chart(fig, use_container_width=True)
 
-st.markdown("#### Compare average ratings of restaurants with Online Delivery = Yes vs No.")
+st.markdown("#### Distribution of Average Cost for Two Across Cities")
+average_cost_by_country = zomato_data.groupby('City')['Average Cost for two'].mean().reset_index()
+fig = px.box(data_frame=average_cost_by_country.head(10), x='City', y='Average Cost for two', color='City')
+st.plotly_chart(fig, use_container_width=True)
+
+st.markdown("#### Use Latitude & Longitude to show restaurant locations on a world map.")
+fig = px.scatter_geo(data_frame=zomato_data, lat="Latitude", lon='Longitude', template='plotly_dark')
+st.plotly_chart(fig, use_container_width=True)
