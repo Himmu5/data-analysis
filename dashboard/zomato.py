@@ -60,3 +60,9 @@ zomato_data['rating'] = zomato_data['Aggregate rating'].apply(add_rating)
 rating_distribution = zomato_data['rating'].value_counts().reset_index().head() 
 fig = px.pie(rating_distribution,names="rating", values="count", labels='rating')
 st.plotly_chart(fig, use_container_width=True)
+
+st.markdown("#### Votes (x-axis) vs Aggregate rating (y-axis)")
+fig = px.scatter(data_frame=zomato_data,x="Votes", y='Aggregate rating', color="Votes")
+st.plotly_chart(fig, use_container_width=True)
+
+st.markdown("#### Compare average ratings of restaurants with Online Delivery = Yes vs No.")
