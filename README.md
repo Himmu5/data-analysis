@@ -42,17 +42,13 @@ notebooks/             # Jupyter notebooks for data exploration
     titanic_data_analysis.ipynb
     uber_analysis.ipynb
     zomato_analysis.ipynb
-```
+    [...existing content...]
 
 ## 🚀 Getting Started
 
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/Himmu5/data-analysis.git
-   cd data-analysis
-   ```
-2. **Set up a Python virtual environment:**
-   ```bash
    python3 -m venv .venv
    source .venv/bin/activate
    ```
@@ -70,24 +66,13 @@ notebooks/             # Jupyter notebooks for data exploration
     ```bash
     python dashboard/covid.py
     ```
-- **Jupyter Notebooks:**
-  - Open notebooks in the `notebooks/` folder using Jupyter Lab or VS Code.
 
-## 🗂️ Datasets
 
 All datasets used for analysis are stored in the `dataset/` folder. Each notebook or dashboard script specifies which dataset it uses.
-
 ## 📝 Notebooks Overview
 
-Explore the following analyses:
 - COVID-19 Data Analysis
 - Customer Churn Prediction
-- Diwali Sales Insights
-- Gold Price Trends
-- Google Trends Analysis
-- iPhone Sales Analysis
-- Iris Dataset Exploration
-- Real Estate Price Analysis
 - Titanic Survival Analysis
 - Uber Data Insights
 - Zomato Restaurant Analysis
