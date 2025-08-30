@@ -4,6 +4,9 @@ import seaborn as sns
 import plotly.express as px
 import streamlit as st
 
+def main():
+    print("Dashboard main function")
+
 # ======================
 # Load Data
 # ======================

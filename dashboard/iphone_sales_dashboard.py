@@ -6,6 +6,9 @@ import plotly.express as px
 from itertools import combinations
 from collections import Counter
 
+def main():
+    print("Dashboard main function")
+
 # ======================
 # Load Data
 # ======================

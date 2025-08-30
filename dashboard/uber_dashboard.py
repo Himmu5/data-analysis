@@ -3,6 +3,9 @@ import pandas as pd
 import plotly.express as px
 import calendar
 
+def main():
+    print("Dashboard main function")
+
 # ======================
 # Load Data
 # ======================
