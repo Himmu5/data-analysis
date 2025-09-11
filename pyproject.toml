@@ -16,3 +16,8 @@ dependencies = [
     "sqlalchemy>=2.0.43",
     "streamlit>=1.48.1",
 ]
+
+[tool.uv.workspace]
+members = [
+    "project",
+]
