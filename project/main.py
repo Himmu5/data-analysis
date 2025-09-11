@@ -2,4 +2,4 @@ from scrapper import Scrapper
 
 
 scrapper = Scrapper()
-scrapper.scrap_cricket_data()
+scrapper.headless_browser_scrapper()
