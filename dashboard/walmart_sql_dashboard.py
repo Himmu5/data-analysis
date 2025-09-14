@@ -323,6 +323,37 @@ fig_scatter = plt.scatter(
 )
 st.plotly_chart(fig_scatter, use_container_width=True)
 
+# ------------------- Conclusion -------------------
+st.divider()
+st.markdown("## 📝 Key Insights & Conclusion")
+
+with st.expander("🔍 View Summary Insights"):
+    st.markdown(
+        f"""
+        ### 📌 Business Highlights
+        - 🏬 **Branch & City Performance**  
+          Top branches and cities are driving revenue & profit — opportunities to replicate their success.  
+
+        - 📦 **Product Categories**  
+          **{category_name}** is the **highest revenue generator**, while **{rating_category}** leads customer satisfaction with an avg. rating of **{avg_rating:.2f}/5**.  
+
+        - ⚖️ **Profitability Trade-offs**  
+          Some categories sell in **large quantities but at lower margins** — potential pricing & cost optimization needed.  
+
+        - 💳 **Payment Preferences**  
+          **{top_method}** transactions deliver the **highest average value (${top_value:,.2f})**, making it the most profitable payment method to encourage.  
+
+        - 🧾 **High-Value Customers**  
+          A few invoices account for a **large revenue share** — valuable customers worth focusing retention strategies on.  
+
+        - 📊 **Quantity vs Profit Margin**  
+          Higher purchase volumes don’t always equal higher profitability — balance between volume & margins is essential.  
+        """,
+        unsafe_allow_html=True
+    )
+
+st.info("✅ These insights can guide strategy in pricing, promotions, customer retention, and branch-level decision making.")
+
 
 # ------------------- Footer -------------------
 st.divider()
