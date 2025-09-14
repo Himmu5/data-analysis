@@ -10,12 +10,13 @@ st.caption("Interactive overview of Walmart's sales, profit margins, and categor
 
 # ------------------- DB Connection -------------------
 def load_data():
-    username = st.secrets["username"]
-    password = st.secrets["password"]
-    host = st.secrets["host"]
-    port = st.secrets["port"]
-    database = st.secrets["database"]
-    return create_engine(f"mysql+pymysql://{username}:{password}@{host}:{port}/{database}")
+    username = st.secrets["secrets"]['username'] 
+    password = st.secrets["secrets"]["password"]
+    host = st.secrets["secrets"]["host"]
+    port = st.secrets["secrets"]["port"]
+    database = st.secrets["secrets"]["database"]
+    url = f"mysql+pymysql://{username}:{password}@{host}:{port}/{database}"
+    return create_engine(url)
 
 conn = load_data()
 
