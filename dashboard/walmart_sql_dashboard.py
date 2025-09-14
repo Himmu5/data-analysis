@@ -326,8 +326,7 @@ st.plotly_chart(fig_scatter, use_container_width=True)
 # ------------------- Conclusion -------------------
 st.divider()
 st.markdown("## 📝 Key Insights & Conclusion")
-
-with st.expander("🔍 View Summary Insights"):
+with st.expander("🔍 View Summary Insights", expanded=True):
     st.markdown(
         f"""
         ### 📌 Business Highlights
