@@ -183,10 +183,86 @@ fig_quantity_margin.update_layout(
 )
 st.plotly_chart(fig_quantity_margin, use_container_width=True)
 
-# ------------------- Overview -------------------
+# ------------------- Payment Method Analysis ------------------- 
 st.divider()
 st.markdown("## 🔹 Payment Method Analysis")
 
+# Query payment distribution
+payment_distribution = pd.read_sql("""
+    SELECT payment_method, COUNT(*) as total
+    FROM walmart
+    GROUP BY payment_method
+    ORDER BY total DESC;
+""", con=conn)
+
+# Calculate total transactions
+total_payments = payment_distribution['total'].sum()
+payment_distribution['percentage'] = (payment_distribution['total'] / total_payments) * 100
+
+# KPI Cards
+col1, col2, col3 = st.columns(3)
+for idx, row in payment_distribution.iterrows():
+    if row['payment_method'].lower() == "cash":
+        col1.metric("💵 Cash", f"{row['total']:,}", f"{row['percentage']:.1f}%")
+    elif row['payment_method'].lower() == "ewallet":
+        col2.metric("📱 E-Wallet", f"{row['total']:,}", f"{row['percentage']:.1f}%")
+    else:
+        col3.metric("💳 Credit Card", f"{row['total']:,}", f"{row['percentage']:.1f}%")
+
+# Pie Chart
+st.markdown("### 📊 Payment Method Share")
+fig_pie = plt.pie(
+    data_frame=payment_distribution,
+    names="payment_method",
+    values="total",
+    hole=0.4,  # donut style
+    title="Distribution of Payment Methods"
+)
+fig_pie.update_traces(textinfo="percent+label")
+st.plotly_chart(fig_pie, use_container_width=True)
+
+# Bar Chart
+st.markdown("### 📊 Payment Method Comparison (Counts)")
+fig_bar = plt.bar(
+    data_frame=payment_distribution,
+    x="payment_method",
+    y="total",
+    color="payment_method",
+    text="total"
+)
+fig_bar.update_traces(texttemplate="%{text:,}", textposition="outside")
+fig_bar.update_layout(yaxis_title="Number of Transactions")
+st.plotly_chart(fig_bar, use_container_width=True)
+
+# Average Transaction Value by Payment Method
+st.markdown("### 💡 Average Transaction Value by Payment Method")
+avg_txn_value = pd.read_sql("""
+    SELECT payment_method, AVG(total) as avg_transaction_value
+    FROM walmart
+    GROUP BY payment_method
+    ORDER BY avg_transaction_value DESC;
+""", con=conn)
+
+# Highlight the best payment method
+top_method = avg_txn_value.iloc[0]['payment_method']
+top_value = avg_txn_value.iloc[0]['avg_transaction_value']
+
+st.success(
+    f"🏆 Customers using **{top_method}** have the **highest average transaction value** "
+    f"of **${top_value:,.2f}**."
+)
+
+# Bar Chart for average transaction value
+fig_avg = plt.bar(
+    data_frame=avg_txn_value,
+    x="payment_method",
+    y="avg_transaction_value",
+    color="payment_method",
+    text="avg_transaction_value"
+)
+fig_avg.update_traces(texttemplate="$%{text:,.2f}", textposition="outside")
+fig_avg.update_layout(yaxis_title="Avg. Transaction Value ($)")
+st.plotly_chart(fig_avg, use_container_width=True)
 
 # ------------------- Footer -------------------
 st.divider()
