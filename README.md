@@ -69,6 +69,7 @@ notebooks/             # Jupyter notebooks for data exploration
 
 
 All datasets used for analysis are stored in the `dataset/` folder. Each notebook or dashboard script specifies which dataset it uses.
+
 ## 📝 Notebooks Overview
 
 - COVID-19 Data Analysis
@@ -76,6 +77,25 @@ All datasets used for analysis are stored in the `dataset/` folder. Each noteboo
 - Titanic Survival Analysis
 - Uber Data Insights
 - Zomato Restaurant Analysis
+
+## 🛒 Walmart SQL Dashboard
+
+A new interactive dashboard for Walmart sales analysis is now available, built using Streamlit, Plotly, and MySQL for fast, flexible SQL-powered analytics.
+
+**How to Run:**
+- Ensure your MySQL database is set up and credentials are configured in `.streamlit/secrets.toml`.
+- Launch the dashboard with:
+    ```bash
+    python dashboard/walmart_sql_dashboard.py
+    ```
+- The dashboard provides:
+    - Revenue and profit KPIs
+    - Top branches and cities
+    - Product category insights
+    - Payment method analysis
+    - High-value transactions and profitability trends
+
+See [dashboard/walmart_sql_dashboard.py](dashboard/walmart_sql_dashboard.py) for implementation details.
 
 ## 🤝 Contributing
 
