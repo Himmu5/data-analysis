@@ -265,6 +265,65 @@ fig_avg.update_traces(texttemplate="$%{text:,.2f}", textposition="outside")
 fig_avg.update_layout(yaxis_title="Avg. Transaction Value ($)")
 st.plotly_chart(fig_avg, use_container_width=True)
 
+st.markdown("## 🔹 Profitability & High-Value Transactions") 
+st.markdown("### 🔝 Top 10 Invoices by Revenue")
+
+top_invoices = pd.read_sql("""
+    SELECT invoice_id, SUM(total) as total_revenue
+    FROM walmart
+    GROUP BY invoice_id
+    ORDER BY total_revenue DESC
+    LIMIT 10;
+""", con=conn)
+
+fig = plt.bar(
+    data_frame=top_invoices,
+    x="invoice_id",
+    y="total_revenue",
+    title="Top 10 Invoices by Revenue",
+    text="total_revenue"
+)
+fig.update_traces(texttemplate="$%{text:,.2f}", textposition="outside")
+fig.update_layout(yaxis_title="Revenue ($)", xaxis_title="Invoice ID")
+
+st.plotly_chart(fig, use_container_width=True)
+
+# ------------------- Quantity vs Profit Margin -------------------
+st.divider()
+st.markdown("## 📊 Quantity vs Profit Margin")
+
+# Query to calculate average profit margin by quantity
+quantity_vs_margin = pd.read_sql("""
+    SELECT 
+        quantity, 
+        AVG(profit_margin) AS avg_profit_margin
+    FROM walmart
+    GROUP BY quantity
+    ORDER BY quantity;
+""", con=conn)
+
+# Line chart (trend view)
+fig_line = plt.line(
+    data_frame=quantity_vs_margin,
+    x="quantity",
+    y="avg_profit_margin",
+    markers=True,
+    title="Average Profit Margin by Quantity Purchased"
+)
+st.plotly_chart(fig_line, use_container_width=True)
+
+# Optional: Scatter chart (distribution view)
+fig_scatter = plt.scatter(
+    data_frame=quantity_vs_margin,
+    x="quantity",
+    y="avg_profit_margin",
+    size="avg_profit_margin",
+    color="avg_profit_margin",
+    title="Scatter: Quantity vs Avg Profit Margin"
+)
+st.plotly_chart(fig_scatter, use_container_width=True)
+
+
 # ------------------- Footer -------------------
 st.divider()
 st.caption("📈 Dashboard built with Streamlit, Plotly, and MySQL • Walmart Sales Analysis")
