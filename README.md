@@ -14,35 +14,59 @@ dashboard/             # Python scripts for interactive dashboards
     covid.py
     diwali_sales.py
     iphone_sales_dashboard.py
+    spotify_dashboard.py
     uber_dashboard.py
+    walmart_sql_dashboard.py
+    zomato.py
 
 dataset/               # Collection of datasets used in analyses
+    auth_logs.csv
     covid.csv
     Customer_Churn.csv
     diwali_sales_data.csv
+    firewall_logs.csv
     gold_price_data.csv
     HousePricePrediction.xlsx
     iphone_sales.csv
     Iris.csv
+    netflix_titles.csv
     passanger_test_data.csv
+    retail_data.csv
+    spotify_data.csv
     test.csv
     train.csv
     uber_data.csv
+    Walmart.csv
+    web_logs.csv
     zomato.csv
 
 notebooks/             # Jupyter notebooks for data exploration
     covid_analysis.ipynb
     customer_churn.ipynb
+    cyber_analysis.ipynb
     diwali_sales_analysis.ipynb
     gold_price_analysis.ipynb
     google_trends_analysis.ipynb
     iphone_sales_analysis.ipynb
     iris_analysis.ipynb
+    netflix_analysis.ipynb
     real_state_Analysis.ipynb
+    retail_sale_analysis.ipynb
+    spotify_analysis.ipynb
     titanic_data_analysis.ipynb
     uber_analysis.ipynb
+    walmart_analysis.ipynb
     zomato_analysis.ipynb
-    [...existing content...]
+
+project/               # Additional project scripts
+    main.py
+    pyproject.toml
+    README.md
+    scrapper.py
+
+sql/                   # SQL scripts for data analysis
+    retail_analysis.sql
+```
 
 ## 🚀 Getting Started
 
@@ -67,7 +91,6 @@ notebooks/             # Jupyter notebooks for data exploration
     python dashboard/covid.py
     ```
 
-
 All datasets used for analysis are stored in the `dataset/` folder. Each notebook or dashboard script specifies which dataset it uses.
 
 ## 📝 Notebooks Overview
@@ -77,6 +100,16 @@ All datasets used for analysis are stored in the `dataset/` folder. Each noteboo
 - Titanic Survival Analysis
 - Uber Data Insights
 - Zomato Restaurant Analysis
+- Spotify Data Analysis
+- Walmart Sales Analysis
+- Netflix Titles Exploration
+- Gold Price Trends
+- Iris Flower Classification
+- Retail Sales Insights
+- Cybersecurity Log Analysis
+- Diwali Sales Insights
+- Real Estate Market Analysis
+- Google Trends Analysis
 
 ## 🛒 Walmart SQL Dashboard
 
